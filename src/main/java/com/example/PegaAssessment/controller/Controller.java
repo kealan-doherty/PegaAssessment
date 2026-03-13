@@ -1,5 +1,6 @@
 package com.example.PegaAssessment.controller;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,26 +9,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.PegaAssessment.model.ReadingListItem;
+import com.example.PegaAssessment.repository.ReadingListItemRepository;
 
-//import com.example.PegaAssessment.model.*;
+import java.util.List;
 
 @RestController
 public class Controller {
 
-    @GetMapping("/")
-    public String hello() {// simple test get route 
-        return "hello there";
+    private final ReadingListItemRepository service;
+
+    public Controller(ReadingListItemRepository service) {
+        this.service = service;
     }
 
-    @GetMapping("/test")
-    public ReadingListItem cool(@RequestParam String title, @RequestParam String author,@RequestParam String notes, @RequestParam Boolean readStatus) {
-        ReadingListItem input = new ReadingListItem(title, author, notes, readStatus);
-        return input;
-    }
 
     @GetMapping("/getAll")
-    public String getAll() {
-        return "basic setup for get all route";
+    public List<ReadingListItem> getAll() {
+        return service.findAll();
     }
 
     @GetMapping("/getByTitle")
@@ -36,8 +34,9 @@ public class Controller {
     }
 
     @PostMapping("/addReadingItem")
+    @Transactional
     public void add(@RequestParam String title, @RequestParam String author, @RequestParam String notes, @RequestParam Boolean readStatus) {
-
+        service.addReadingListItem(title, author, notes, readStatus);
     }
 
     @PutMapping("/updateTitle")
