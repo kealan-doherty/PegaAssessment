@@ -1,5 +1,8 @@
 package com.example.PegaAssessment.controller;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,14 +32,20 @@ public class Controller {
     }
 
     @GetMapping("/getByTitle")
-    public String getByTitle(@RequestParam String title) {
-        return "Fetching reading item with title: " + title;
+    public ResponseEntity<ReadingListItem> getByTitle(@RequestParam String title) {
+        return service.findByTitle(title)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/addReadingItem")
     @Transactional
-    public void add(@RequestParam String title, @RequestParam String author, @RequestParam String notes, @RequestParam Boolean readStatus) {
+    public ResponseEntity<Void> add(@RequestParam String title, @RequestParam String author, @RequestParam String notes, @RequestParam Boolean readStatus) {
+        if(service.findByTitle(title).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         service.addReadingListItem(title, author, notes, readStatus);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/updateTitle")
