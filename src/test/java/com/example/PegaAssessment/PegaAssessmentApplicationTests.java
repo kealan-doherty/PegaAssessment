@@ -27,4 +27,9 @@ class PegaAssessmentApplicationTests {
 			.andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
 	}
 
+	@Test
+	void testAddReadingListItem() throws Exception {
+		
+	}
+		
 }
