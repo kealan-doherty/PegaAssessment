@@ -20,6 +20,7 @@ public class ReadingListItem {
     @JsonProperty("author")
     private String author;
 
+    @Column(nullable = true)
     @JsonProperty("notes")
     private String notes;
 
