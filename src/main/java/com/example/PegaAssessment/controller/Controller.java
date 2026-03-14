@@ -1,5 +1,8 @@
 package com.example.PegaAssessment.controller;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,38 +31,64 @@ public class Controller {
         return service.findAll();
     }
 
-    @GetMapping("/getByTitle")
-    public String getByTitle(@RequestParam String title) {
-        return "Fetching reading item with title: " + title;
+    @GetMapping("/getById")
+    public ResponseEntity<ReadingListItem> getById(@RequestParam Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/addReadingItem")
     @Transactional
-    public void add(@RequestParam String title, @RequestParam String author, @RequestParam String notes, @RequestParam Boolean readStatus) {
+    public ResponseEntity<Void> add(@RequestParam String title, @RequestParam String author, @RequestParam String notes, @RequestParam Boolean readStatus) {
+        if(service.findByTitle(title).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         service.addReadingListItem(title, author, notes, readStatus);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/updateTitle")
-    public void updateTitle(@RequestParam String oldTitle, @RequestParam String newTitle) {
+    @Transactional
+    public ResponseEntity<Void> updateTitle(@RequestParam Long id, @RequestParam String newTitle) {
+        if(service.findById(id).isPresent() == false) {
+            return ResponseEntity.notFound().build();
+        }
+        service.updateTitle(id, newTitle);
+        return ResponseEntity.ok().build();
 
     }
 
     @PutMapping("/updateAuthor")
-    public void updateAuthor(@RequestParam String title, @RequestParam String newAuthor) {
+    @Transactional
+    public ResponseEntity<Void> updateAuthor(@RequestParam long id, @RequestParam String newAuthor) {
+        if(service.findById(id).isPresent() == false){
+            return ResponseEntity.notFound().build();
+        }
+        service.updateAuthor(id, newAuthor);
+        return ResponseEntity.ok().build();
 
     }
 
     @PutMapping("/updateNotes")
-    public void updateNotes(@RequestParam String title, @RequestParam String newNotes) {    
+    @Transactional
+    public ResponseEntity<Void> updateNotes(@RequestParam Long id, @RequestParam String newNotes) {
+        if(service.findById(id).isPresent() == false){
+            return ResponseEntity.notFound().build();
+        }
+        service.updateAuthor(id, newNotes);
+        return ResponseEntity.ok().build();    
 
     }
 
     @PutMapping("/updateReadStatus")
+    @Transactional
     public void updateReadStatus(@RequestParam String title) {
 
     }
 
     @DeleteMapping("/delete")
+    @Transactional
     public void delete(@RequestParam String title) { 
 
     }
