@@ -8,6 +8,30 @@
 
 ################################################################################
 
+# Test stage: runs the Maven test suite inside a container that mirrors the
+# production filesystem layout (/app/data exists), so SQLite can open
+# jdbc:sqlite:/app/data/readinglist.db without errors.
+FROM eclipse-temurin:21-jdk-jammy AS test
+
+WORKDIR /app
+
+COPY --chmod=0755 mvnw mvnw
+COPY .mvn/ .mvn/
+COPY pom.xml pom.xml
+
+# Pre-fetch dependencies using the cache mount so subsequent builds are fast.
+RUN --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline
+
+COPY src/ src/
+
+# Ensure the SQLite directory exists to match application.properties
+RUN mkdir -p /app/data
+
+# Run tests; the build fails here if any test fails.
+RUN --mount=type=cache,target=/root/.m2 ./mvnw -B test
+
+################################################################################
+
 # Create a stage for resolving and downloading dependencies.
 FROM eclipse-temurin:21-jdk-jammy as deps
 
