@@ -25,20 +25,20 @@ public interface ReadingListItemRepository extends JpaRepository<ReadingListItem
     Optional<ReadingListItem> findByTitle(@Param("title") String title);
 
     @Modifying
-    @Query(value = "UPDATE reading_list_items SET title = :newTitle WHERE item_id = :id", nativeQuery = true)
+    @Query(value = "UPDATE reading_list_items SET title = :newTitle WHERE id = :id", nativeQuery = true)
     void updateTitle(@Param("id") Long id, @Param("newTitle") String newTitle);
 
     @Modifying
-    @Query(value = "UPDATE reading_list_items SET author = :newAuthor WHERE item_id = :id", nativeQuery = true)
+    @Query(value = "UPDATE reading_list_items SET author = :newAuthor WHERE id = :id", nativeQuery = true)
     void updateAuthor(@Param("id") Long id, @Param("newAuthor") String newAuthor);
 
     @Modifying
-    @Query(value = "UPDATE reading_list_items SET notes = :newNotes WHERE item_id = :id", nativeQuery = true)
+    @Query(value = "UPDATE reading_list_items SET notes = :newNotes WHERE id = :id", nativeQuery = true)
     void updateNotes(@Param("id") Long id, @Param("newNotes") String newNotes);
 
 
     @Modifying
-    @Query(value = "UPDATE reading_list_items SET read_status = :newReadStatus WHERE item_id = :id", nativeQuery = true)
+    @Query(value = "UPDATE reading_list_items SET read_status = :newReadStatus WHERE id = :id", nativeQuery = true)
     void updateReadStatus(@Param("id") Long id, @Param("newReadStatus") Boolean newReadStatus);
 
     @Modifying
