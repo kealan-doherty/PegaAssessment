@@ -40,7 +40,7 @@ public class Controller {
 
     @PostMapping("/addReadingItem")
     @Transactional
-    public ResponseEntity<Void> add(@RequestParam String title, @RequestParam String author, @RequestParam String notes, @RequestParam Boolean readStatus) {
+    public ResponseEntity<Void> add(@RequestParam String title, @RequestParam String author, @RequestParam(required = false) String notes, @RequestParam Boolean readStatus) {
         if(service.findByTitle(title).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -76,20 +76,32 @@ public class Controller {
         if(service.findById(id).isPresent() == false){
             return ResponseEntity.notFound().build();
         }
-        service.updateAuthor(id, newNotes);
+        service.updateNotes(id, newNotes);
         return ResponseEntity.ok().build();    
 
     }
 
     @PutMapping("/updateReadStatus")
     @Transactional
-    public void updateReadStatus(@RequestParam String title) {
+    public ResponseEntity<Void> updateReadStatus(@RequestParam Long id, @RequestParam Boolean newReadStatus) {
+        if(service.findById(id).isPresent() == false){
+            ResponseEntity.notFound().build();
+        }
+
+        service.updateReadStatus(id, newReadStatus);
+        return ResponseEntity.ok().build();
 
     }
 
     @DeleteMapping("/delete")
     @Transactional
-    public void delete(@RequestParam String title) { 
+    public ResponseEntity<Void> delete(@RequestParam Long id) { 
+        if(service.findById(id).isPresent() == false) {
+            ResponseEntity.notFound().build();
+        } 
+
+        service.deleteItem(id);
+        return ResponseEntity.ok().build();
 
     }
 

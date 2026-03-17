@@ -11,6 +11,8 @@ services:
   server:
     build:
       context: .
+    environment:
+      - DATABASE_URL=jdbc:sqlite:/app/data/readinglist.db
     ports:
       - 8080:8080
     volumes:
