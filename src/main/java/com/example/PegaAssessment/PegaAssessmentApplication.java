@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PegaAssessmentApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PegaAssessmentApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(PegaAssessmentApplication.class, args);
+  }
 }
