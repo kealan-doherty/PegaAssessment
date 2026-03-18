@@ -123,7 +123,7 @@ class ControllerUnitTests {
     Map<?, ?> body = (Map<?, ?>) response.getBody();
 
     assertEquals(400, response.getStatusCode().value());
-    assertEquals("newTitle", body.get("field"));
+    assertEquals("title", body.get("field"));
     verify(repository, never()).updateTitle(any(), any());
   }
 
@@ -159,7 +159,7 @@ class ControllerUnitTests {
     Map<?, ?> body = (Map<?, ?>) response.getBody();
 
     assertEquals(400, response.getStatusCode().value());
-    assertEquals("newAuthor", body.get("field"));
+    assertEquals("author", body.get("field"));
     verify(repository, never()).updateAuthor(any(), any());
   }
 

@@ -267,8 +267,8 @@ class PegaAssessmentApplicationTests {
 				.param("newTitle", "   "))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.field").value("newTitle"))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.message").value("New title is required and cannot be empty"));
+			.andExpect(MockMvcResultMatchers.jsonPath("$.field").value("title"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Title is required and cannot be empty"));
 	}
 
 	@Test
