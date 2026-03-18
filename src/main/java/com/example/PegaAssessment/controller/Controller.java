@@ -150,13 +150,12 @@ public class Controller {
     if (validationResponse != null) {
       return validationResponse;
     }
-    if (newTitle == null || newTitle.isBlank()) {
-      return ResponseEntity.badRequest()
-          .body(
-              Map.of(
-                  "field", "newTitle",
-                  "message", "New title is required and cannot be empty"));
+
+    ResponseEntity<?> titleValidationResponse = validateTitle(title);
+    if (titleValidationResponse != null) {
+      retrun titleValidationResponse;
     }
+
     ResponseEntity<?> itemExistsResponse = validateItemExists(id);
     if (itemExistsResponse != null) {
       return itemExistsResponse;
@@ -173,12 +172,9 @@ public class Controller {
     if (validationResponse != null) {
       return validationResponse;
     }
-    if (newAuthor == null || newAuthor.isBlank()) {
-      return ResponseEntity.badRequest()
-          .body(
-              Map.of(
-                  "field", "newAuthor",
-                  "message", "New author is required and cannot be empty"));
+    ReponseEntity<?> authorValidationResponse = validateAuthor(author);
+    if ( authorValidationResponse != null) {
+      return authorValidationResponse;
     }
     ResponseEntity<?> itemExistsResponse = validateItemExists(id);
     if (itemExistsResponse != null) {
