@@ -153,7 +153,7 @@ public class Controller {
 
     ResponseEntity<?> titleValidationResponse = validateTitle(title);
     if (titleValidationResponse != null) {
-      retrun titleValidationResponse;
+      return titleValidationResponse;
     }
 
     ResponseEntity<?> itemExistsResponse = validateItemExists(id);
@@ -172,7 +172,7 @@ public class Controller {
     if (validationResponse != null) {
       return validationResponse;
     }
-    ReponseEntity<?> authorValidationResponse = validateAuthor(author);
+    ResponseEntity<?> authorValidationResponse = validateAuthor(author);
     if ( authorValidationResponse != null) {
       return authorValidationResponse;
     }
