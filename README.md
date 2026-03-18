@@ -1,6 +1,6 @@
 # Reading List Service
 
-The service is built with Java 21, Spring Boot, Spring Data JPA, SQLite, and Docker (version: 29.1.1 ). 
+The service is built with Java 21, Spring Boot, Spring Data JPA, SQLite, and Docker (version: 29.1.1 ) and Postman for manual API route testing. 
 
 ## Persistence Choice
 SQLite was chosen as the Database for this assessment because it is a simple and lightweight file-based database. it runs without needing the installation of a database engine like Postgres simplyfing the development and use of my service.Another benefit of using SQLite was it was a simple setup to Presist the Database in Docker. Allowing user data to survive container Restarts. Which I believe was the right choice for my local service. 
