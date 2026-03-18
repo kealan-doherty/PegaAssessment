@@ -151,7 +151,7 @@ public class Controller {
       return validationResponse;
     }
 
-    ResponseEntity<?> titleValidationResponse = validateTitle(title);
+    ResponseEntity<?> titleValidationResponse = validateTitle(newTitle);
     if (titleValidationResponse != null) {
       return titleValidationResponse;
     }
@@ -172,7 +172,7 @@ public class Controller {
     if (validationResponse != null) {
       return validationResponse;
     }
-    ResponseEntity<?> authorValidationResponse = validateAuthor(author);
+    ResponseEntity<?> authorValidationResponse = validateAuthor(newAuthor);
     if ( authorValidationResponse != null) {
       return authorValidationResponse;
     }
